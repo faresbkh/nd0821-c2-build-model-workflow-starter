@@ -7,6 +7,7 @@ import logging
 import os
 
 import pandas as pd
+
 import wandb
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
@@ -29,6 +30,9 @@ def go(args):
     minimum_price = args.min_price
     maximum_price = args.max_price
     idx = dataframe["price"].between(minimum_price, maximum_price)
+
+    dataframe = dataframe[idx].copy()
+    idx = dataframe["longitude"].between(-74.25, -73.50) & dataframe["latitude"].between(40.5, 41.2)
     dataframe = dataframe[idx].copy()
     dataframe["last_review"] = pd.to_datetime(dataframe["last_review"])
 
